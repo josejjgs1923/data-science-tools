@@ -2,7 +2,8 @@
 """
 contiene funciones generales para visualizar los resultados de modelos, EDAs y otras visualizaciones.
 """
-
+import numpy as np
+import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
@@ -185,7 +186,7 @@ def conjunto_cluster_plot(data, titulo, modelo, caracteristicas=None, cmap="viri
         axes = fig.subplots(num_filas, num_cols)
     
         # eliminar ejes triangulo superior, vacios
-        for idx, idy in construir_comb(num_cols):
+        for idx, idy in comb(num_cols):
             axes[idx, idy].remove()
     
         # eliminar ejes vacios en ultima fila: num_filas - 1 
