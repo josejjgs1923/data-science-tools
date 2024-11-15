@@ -4,6 +4,7 @@ contiene funciones generales para implementar modelos de machine learning, visua
 """
 
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn import metrics
 from .graficos import heatmap
