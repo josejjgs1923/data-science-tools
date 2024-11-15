@@ -5,6 +5,7 @@ Almacenar funciones y clases que facilitan los EDAs, analisis de hipotesis, prob
 
 import numpy as np 
 import pandas as pd
+from scipy import stats
 
 
 def medidas_resumen(datos:pd.DataFrame, campo:str):
@@ -106,7 +107,7 @@ def test_chi_cuadrado(datos):
     gl = (frec_esp.shape[0] - 1) * (frec_esp.shape[1] - 1)
 
     #el parametro axis, hace que las frecuencias se tomen como si fuera un vector
-    return chisquare(datos.iloc[:-1, :-1], f_exp=frec_esp, ddof=ddof, axis=None), gl
+    return stats.chisquare(datos.iloc[:-1, :-1], f_exp=frec_esp, ddof=ddof, axis=None), gl
 
 
 def mostrar_chi(resultados):
