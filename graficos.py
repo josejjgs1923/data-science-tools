@@ -131,7 +131,7 @@ def grafico_codo(numero_clusteres, suma_distancias, titulos, punto_codo=None):
 def conjunto_cluster_plot(data, titulo, modelo, caracteristicas=None, cmap="viridis", tamaño=None):
     """
     Graficar conjunto de cluster plots, creando un grafico de clusters por cada
-    para de variables.
+    par de variables.
     """
 
     labels = modelo.labels_
@@ -214,7 +214,9 @@ def conjunto_cluster_plot(data, titulo, modelo, caracteristicas=None, cmap="viri
     
             # graficar titulos x en los graficos de la ultima fila: num_filas - 1
             if idy == num_filas - 1 :
-                eje.set_xlabel(variable_x)        
+                eje.set_xlabel(variable_x)
+
+        #axes[0,0].legend()
 
     else:
         cant = len(caracteristicas)
@@ -228,8 +230,8 @@ def conjunto_cluster_plot(data, titulo, modelo, caracteristicas=None, cmap="viri
                 return axes[idy]
 
         else:
-            num_filas = num_cols = int(np.floor(np.sqrt(cant)))
-            
+            num_filas = num_cols = int(np.ceil(np.sqrt(cant)))
+
             def mapeo(idx, idy, axes):
                 return axes[idx, idy]
                 
@@ -246,7 +248,7 @@ def conjunto_cluster_plot(data, titulo, modelo, caracteristicas=None, cmap="viri
     
         axes = fig.subplots(num_filas, num_cols)
 
-        for (idx, idy), (variable_x, variable_y) in zip(indices, caracteristicas):
+        for (variable_x, variable_y), (idx, idy) in zip(caracteristicas, indices):
             # obtener el eje en el que se va a graficar con indices
             #idx es el indice de filas, y idy el de columnas
             eje = mapeo(idx, idy, axes)
@@ -259,6 +261,8 @@ def conjunto_cluster_plot(data, titulo, modelo, caracteristicas=None, cmap="viri
 
         for idx, idy in indices:
             axes[idx, idy].remove()
+
+        #mapeo(0, 0, axes).legend()
  
     #eje = fig.add_subplot(num_filas, num_cols, id_graf)
 
