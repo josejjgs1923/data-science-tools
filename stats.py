@@ -29,14 +29,27 @@ def tamaño_sturgess(data):
 
 
 def medidas_resumen(datos:pd.DataFrame, campo:str):
+    """
+    Calcular y mostrar en un dataframe las medidas estatisticas de 
+    resumen para un campo. Se presenta el promedio, mediana, cuartiles, desviación estandar
+    y varianza.
 
-    res = datos[campo].describe()
+    Parametros:
+        datos: dataframe con los datos.
+        campo: columna donde se van a realizar los calculos.
 
-    res["var"] = datos[campo].var()
+    retorna:
+        resumen: dataframe, filas siendo las caracteristicas (como indices)
+    """
+    serie = datos[campo]
 
-    res = pd.DataFrame(res)
+    resumen = serie.describe()
 
-    return res
+    resumen["var"] = serie.var()
+
+    resumen = pd.DataFrame(resumen)
+
+    return resumen
 
 
 def tabla_frecuencia(datos: pd.DataFrame, campo:str):
