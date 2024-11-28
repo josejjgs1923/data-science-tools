@@ -61,6 +61,14 @@ def tabla_frecuencia(datos: pd.DataFrame, campo:str):
     """
     Construye una un dataframe, calculando las frecuencias 
     absolutas y relativas del campo dado.
+
+    parametros:
+        datos: dataframe con los datos.
+        campo: columna de la cual se va a realizar la tabla de frecuencia.
+               debe ser un variable categorica.
+
+    retorna:
+        frec: dataframe con la tabla de frecuencia.
     """
     frec = pd.crosstab(datos[campo], "frecuencia")
 
