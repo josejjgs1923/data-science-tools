@@ -8,6 +8,26 @@ import pandas as pd
 from scipy import stats
 
 
+def tamaño_sturgess(data):
+    """
+    calcular el tamaño y lo limites de las categorias (bins) para la clasificación de una variable numerica continua
+    usando la regla de sturgess. 
+
+    parametros: 
+
+        data: vector o estructura de una sola dimension, conteniendo los valores de los datos.
+    """
+    maximo = np.max(data)
+
+    minimo = np.min(data)
+
+    tamaño = (maximo - minimo) / (1 + 3.3 * np.log10(len(data)))
+    
+    bins = np.arange(minimo, maximo, tamaño)
+
+    return tamaño, bins
+
+
 def medidas_resumen(datos:pd.DataFrame, campo:str):
 
     res = datos[campo].describe()
