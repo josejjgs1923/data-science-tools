@@ -6,6 +6,7 @@ Almacenar funciones y clases que facilitan los EDAs, analisis de hipotesis, prob
 import numpy as np
 import pandas as pd
 from scipy import stats
+from typing import Iterable as _Iterable
 
 
 def tamaño_sturgess(data: pd.DataFrame):
@@ -132,9 +133,22 @@ def calcular_valor_t(
     return valor_t, valor_p
 
 
-def tabla_contingencia(datos, factores, relativa=False):
+def tabla_contingencia(
+    datos: pd.DataFrame,
+    factores: tuple[_Iterable[str], _Iterable[str]],
+    relativa: bool = False,
+):
     """
-    Construir una tabla de contingencia.
+    Construir una tabla de contingencia, usando los niveles de dos variables categoricas.
+
+    parametros:
+        datos: dataframe con los datos.
+        factores: iterable, con dos iterables dentro. Estos dos iterables son los niveles de dos factores.
+        relativa: indica si se calcula la frecuencia relativa. Por defecto se calcula la absoluta.
+
+    retorna:
+        tabla: dataframe con la tabla de contigencia. las filas son los niveles del primer factor y el total, 
+               las columnas los niveles del segundo factor y el total.
     """
     f1, f2 = factores
 
