@@ -163,10 +163,19 @@ def tabla_contingencia(
     return tabla
 
 
-def test_chi_cuadrado(datos):
+def test_chi_cuadrado(datos: pd.DataFrame) -> tuple[stats._stats_py.Power_divergenceResult, float]:
     """
-    crea un dataframe, con las filas siendo los totales de las columnas, duplicado
-    la cantidad de filas de los datos
+    Calcula el coeficiente chi cuadrado, para probar la significancia estadistico 
+    entre pares de variables categoricas.
+
+    parametros: 
+        datos: dataframe conteniendo una tabla de contingencia, donde las columnas son niveles de un variable y el total, 
+               y las filas son los niveles de otra variable y el total. 
+
+    retorna: 
+
+        chi_square: resultado de una prueba chi-cuadrado.
+        gl: grados de libertad calculados.
     """
 
     totales_por_columna_aumentado = pd.DataFrame(
