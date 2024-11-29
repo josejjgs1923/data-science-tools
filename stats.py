@@ -9,7 +9,7 @@ from scipy import stats
 from typing import Iterable as _Iterable
 
 
-def tamaño_sturgess(data: pd.DataFrame):
+def tamaño_sturgess(data: pd.DataFrame) -> tuple[float, np.ndarray]:
     """
     calcular el tamaño y lo limites de las categorias (bins) para la clasificación de una variable numerica continua
     usando la regla de sturgess.
@@ -34,7 +34,7 @@ def tamaño_sturgess(data: pd.DataFrame):
     return tamaño, bins
 
 
-def medidas_resumen(datos: pd.DataFrame, campo: str):
+def medidas_resumen(datos: pd.DataFrame, campo: str) -> pd.DataFrame:
     """
     Calcular y mostrar en un dataframe las medidas estatisticas de
     resumen para un campo. Se presenta el promedio, mediana, cuartiles, desviación estandar
@@ -58,7 +58,7 @@ def medidas_resumen(datos: pd.DataFrame, campo: str):
     return resumen
 
 
-def tabla_frecuencia(datos: pd.DataFrame, campo: str):
+def tabla_frecuencia(datos: pd.DataFrame, campo: str) -> pd.DataFrame:
     """
     Construye una un dataframe, calculando las frecuencias
     absolutas y relativas del campo dado.
@@ -137,7 +137,7 @@ def tabla_contingencia(
     datos: pd.DataFrame,
     factores: tuple[_Iterable[str], _Iterable[str]],
     relativa: bool = False,
-):
+) -> pd.DataFrame:
     """
     Construir una tabla de contingencia, usando los niveles de dos variables categoricas.
 
@@ -147,7 +147,7 @@ def tabla_contingencia(
         relativa: indica si se calcula la frecuencia relativa. Por defecto se calcula la absoluta.
 
     retorna:
-        tabla: dataframe con la tabla de contigencia. las filas son los niveles del primer factor y el total, 
+        tabla: dataframe con la tabla de contigencia. las filas son los niveles del primer factor y el total,
                las columnas los niveles del segundo factor y el total.
     """
     f1, f2 = factores
@@ -163,16 +163,18 @@ def tabla_contingencia(
     return tabla
 
 
-def test_chi_cuadrado(datos: pd.DataFrame) -> tuple[stats._stats_py.Power_divergenceResult, float]:
+def test_chi_cuadrado(
+    datos: pd.DataFrame,
+) -> tuple[stats._stats_py.Power_divergenceResult, float]:
     """
-    Calcula el coeficiente chi cuadrado, para probar la significancia estadistico 
+    Calcula el coeficiente chi cuadrado, para probar la significancia estadistico
     entre pares de variables categoricas.
 
-    parametros: 
-        datos: dataframe conteniendo una tabla de contingencia, donde las columnas son niveles de un variable y el total, 
-               y las filas son los niveles de otra variable y el total. 
+    parametros:
+        datos: dataframe conteniendo una tabla de contingencia, donde las columnas son niveles de un variable y el total,
+               y las filas son los niveles de otra variable y el total.
 
-    retorna: 
+    retorna:
 
         chi_square: resultado de una prueba chi-cuadrado.
         gl: grados de libertad calculados.
