@@ -204,10 +204,13 @@ def test_chi_cuadrado(
     )
 
 
-def mostrar_chi(resultados):
+def mostrar_chi(resultados: stats._stats_py.Power_divergenceResult) -> None:
     """
-    mostrar un pequeño resumen de los
-    resultados de un prueba chi-cuadrado
+    mostrar un pequeño resumen de los resultados de un prueba chi-cuadrado,
+    imprimiendolos por pantalla
+
+    parametros: 
+        resultados: NamedTupled devuelta por las funciones de analisis de hipotesis de scipy. 
     """
     test, gl = resultados
 
