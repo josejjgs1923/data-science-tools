@@ -210,7 +210,7 @@ def mostrar_chi(resultados: stats._stats_py.Power_divergenceResult) -> None:
     imprimiendolos por pantalla
 
     parametros: 
-        resultados: NamedTupled devuelta por las funciones de analisis de hipotesis de scipy. 
+        resultados: NamedTuple devuelta por las funciones de analisis de hipotesis de scipy. 
     """
     test, gl = resultados
 
@@ -221,10 +221,12 @@ def mostrar_chi(resultados: stats._stats_py.Power_divergenceResult) -> None:
     print(f'Grados libertad : {gl}')
 
 
-def mostrar_anova(resultados):
+def mostrar_anova(resultados: stats._stats_py.Power_divergenceResult) -> None:
     """
-    mostrar un pequeño resumen de los
-    resultados de un prueba ANOVA
+    mostrar un pequeño resumen de los resultados de un prueba ANOVA.
+
+    parametros:
+        resultados. NamedTuple devuelta por las funciones de analisis de hipotesis de scipy.
     """
 
     print(f'Valor F: {resultados.statistic:.3f}')
