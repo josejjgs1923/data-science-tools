@@ -10,26 +10,26 @@ import matplotlib.pyplot as plt
 
 
 def grafico_linear_simple(
-    x_entre: np.ndarray, 
+    x_entre: np.ndarray,
     y_entre: np.ndarray,
-    x_prueba: np.ndarray, 
-    y_prueba: np.ndarray, 
-    modelo: _LinearRegression, 
-    titulos: tuple[str, str, str]
+    x_prueba: np.ndarray,
+    y_prueba: np.ndarray,
+    modelo: _LinearRegression,
+    titulos: tuple[str, str, str],
 ) -> None:
     """
     graficar un modelo de regresion lineal simple: mostrando un grafico de dispersion de las predicciones
-    y de los valores reales (datos de entrenamiento y de prueba). las predicciones se muestran como una linea 
+    y de los valores reales (datos de entrenamiento y de prueba). las predicciones se muestran como una linea
     punteada negra.
 
-    parametros: 
-        x_entre: arreglo de numpy con los datos independientes de entrenamiento. 
+    parametros:
+        x_entre: arreglo de numpy con los datos independientes de entrenamiento.
         y_entre: arreglo de numpy con los datos dependientes de entrenamiento.
-        x_prueba: arreglo con los datos de prueba independientes. 
-        y_prueba: arreglo con los datos de prueba dependientes. 
+        x_prueba: arreglo con los datos de prueba independientes.
+        y_prueba: arreglo con los datos de prueba dependientes.
         modelo: modelo de regresion lineal simple de sklearn.
         titulos: tupla con tres titulos: titulo grafico, titulo eje x, titulo eje y.
-    )       
+    )
     """
     plt.scatter(x_entre, y_entre, color='c', label='entrenamiento')
 
@@ -52,8 +52,8 @@ def grafico_linear_simple(
 
 
 def grafico_real_vs_predicho(
-    y_prueba: np.ndarray, 
-    y_prueba_pred: np.ndarray, 
+    y_prueba: np.ndarray,
+    y_prueba_pred: np.ndarray,
     titulos: tuple[str, str, str],
 ) -> None:
     """
@@ -62,7 +62,7 @@ def grafico_real_vs_predicho(
 
     parametros:
         y_prueba: arreglo de numpy con los datos de la variale indepentiente reales (de prueba).
-        y_prueba_pred: arreglo de numpy con los datos predichos. 
+        y_prueba_pred: arreglo de numpy con los datos predichos.
         titulos: tupla con tres titulos: titulo grafico, titulo eje x, titulo eje y.
     """
     linea = np.linspace(np.min(y_prueba_pred), np.max(y_prueba_pred), 300)
@@ -83,20 +83,20 @@ def grafico_real_vs_predicho(
 
 
 def grafico_residuos(
-    y_real: np.ndarray, 
-    y_predicho: np.ndarray, 
+    y_real: np.ndarray,
+    y_predicho: np.ndarray,
     titulos: tuple[str, str, str],
-    color: str = 'g'
+    color: str = 'g',
 ) -> None:
     """
-    Calcular y graficar residuos de un modelo de regresion, y graficar contra 
+    Calcular y graficar residuos de un modelo de regresion, y graficar contra
     los valores predichos.
 
     parametros:
         y_real: arreglo de numpy con los datos de la variable dependiente reales.
         y_predicho: arreglo de numpy con los datos de la varible dependientes predichos.
         titulos: tupla con tres titulos: titulo grafico, titulo eje x, titulo eje y.
-        color: color usado para los puntos, sigue la convención usada por matplotlib. 
+        color: color usado para los puntos, sigue la convención usada por matplotlib.
             por defecto es el verde.
     """
     fig = plt.figure()
@@ -118,13 +118,30 @@ def grafico_residuos(
     plt.show()
 
 
-def heatmap(matriz, titulo, formato='.2f', tamaño=(4, 4), mapa='Reds'):
+def heatmap(
+    matriz: np.ndarray,
+    titulo: str,
+    formato: str = '.2f',
+    tamaño: tuple[int, int] = (4, 4),
+    mapa: str = 'Reds',
+) -> None:
     """
-    Presentar un vision grafica de una matrix, com un mapa de calor.
+    Presentar un vision grafica de una matriz, com un mapa de calor.
+    
+    parametros:
+        matriz: arreglo de numpy, siendo una matriz.
+        titulo: titulo del grafico
+        formato: formato numerico a usar. por defecto usa dos decimales.
+        tamaño: tamaño del grafico, tupla en la forma (tamaño x, tamaño y).
+        mapa: mapa de color para el grafico. usa los mapas de seaborn.
     """
     plt.figure(figsize=tamaño)
+
     sns.heatmap(matriz, annot=True, cmap=mapa, fmt=formato)
+
     plt.title(titulo)
+
+    plt.show()
 
 
 def cluster_plot(data, labels, titulos, data_centroides=None, ax=None):
