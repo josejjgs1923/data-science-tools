@@ -4,13 +4,33 @@ contiene funciones generales para visualizar los resultados de modelos, EDAs y o
 """
 import numpy as np
 import pandas as pd
+from sklearn.linear_model import LinearRegression as _LinearRegression
 import seaborn as sns
 import matplotlib.pyplot as plt
 
 
 def grafico_linear_simple(
-    x_entre, y_entre, x_prueba, y_prueba, modelo, titulo, titulo_x, titulo_y
-):
+    x_entre: np.ndarray, 
+    y_entre: np.ndarray,
+    x_prueba: np.ndarray, 
+    y_prueba: np.ndarray, 
+    modelo: _LinearRegression, 
+    titulos: tuple[str, str, str]
+) -> None:
+    """
+    graficar un modelo de regresion lineal simple: mostrando un grafico de dispersion de las predicciones
+    y de los valores reales (datos de entrenamiento y de prueba). las predicciones se muestran como una linea 
+    punteada negra.
+
+    parametros: 
+        x_entre: arreglo de numpy con los datos independientes de entrenamiento. 
+        y_entre: arreglo de numpy con los datos dependientes de entrenamiento.
+        x_prueba: arreglo con los datos de prueba independientes. 
+        y_prueba: arreglo con los datos de prueba dependientes. 
+        modelo: modelo de regresion lineal simple de sklearn.
+        titulos: tupla con tres titulos: titulo grafico, titulo eje x, titulo eje y.
+    )       
+    """
     plt.scatter(x_entre, y_entre, color='c', label='entrenamiento')
 
     plt.scatter(x_prueba, y_prueba, color='r', label='prueba')
@@ -20,11 +40,11 @@ def grafico_linear_simple(
 
     plt.plot(x_reg, y_reg, 'k--', label='linea regresión')
 
-    plt.title(titulo)
+    plt.title(titulos[0])
 
     # Etiquetas de los ejes (opcional)
-    plt.xlabel(titulo_x)
-    plt.ylabel(titulo_y)
+    plt.xlabel(titulos[1])
+    plt.ylabel(titulos[2])
     plt.legend()
 
     # Mostrar el gráfico
