@@ -52,19 +52,30 @@ def grafico_linear_simple(
 
 
 def grafico_real_vs_predicho(
-    y_prueba, y_prueba_pred, titulo, titulo_x, titulo_y
-):
+    y_prueba: np.ndarray, 
+    y_prueba_pred: np.ndarray, 
+    titulos: tuple[str, str, str],
+) -> None:
+    """
+    graficar los resultados de un modelo aprendizaje supervisado. Se un grafico de dispersion,
+    mostrando puntos de la variable dependiente reales vs los predichos.
+
+    parametros:
+        y_prueba: arreglo de numpy con los datos de la variale indepentiente reales (de prueba).
+        y_prueba_pred: arreglo de numpy con los datos predichos. 
+        titulos: tupla con tres titulos: titulo grafico, titulo eje x, titulo eje y.
+    """
     linea = np.linspace(np.min(y_prueba_pred), np.max(y_prueba_pred), 300)
 
     plt.plot(linea, linea, color='k', linestyle='--', label='y = x')
 
     plt.scatter(y_prueba, y_prueba_pred, color='c')
 
-    plt.title(titulo)
+    plt.title(titulos[0])
 
     # Etiquetas de los ejes (opcional)
-    plt.xlabel(titulo_x)
-    plt.ylabel(titulo_y)
+    plt.xlabel(titulos[1])
+    plt.ylabel(titulos[2])
     plt.legend()
 
     # Mostrar el gráfico
