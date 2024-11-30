@@ -160,9 +160,9 @@ def cluster_plot(
     parametros:
         data: dataframe con los datos a graficar
         labels: arreglo de numpy con la indicacion (número) del cluster al cual pertenece.
-        titulos: tupla con el titulo grafico, titulo eje x, titulo eje y. los titulos x y y deben ser tambien nombres 
+        titulos: tupla con el titulo grafico, titulo eje x, titulo eje y. los titulos x y y deben ser tambien nombres
                 en las columnas del dataframe data.
-        data_centroides: dataframe con la información de los centroides. 
+        data_centroides: dataframe con la información de los centroides.
         ax: ejes de matplotlib, en caso de que no se quieran generar nuevos ejes.
     """
 
@@ -191,18 +191,28 @@ def cluster_plot(
     plt.show()
 
 
-def grafico_codo(numero_clusteres, suma_distancias, titulos, punto_codo=None):
+def grafico_codo(
+    variacion: np.ndarray,
+    metricas: np.ndarray,
+    titulos: tuple[str, str, str],
+    punto_codo: float | None = None,
+) -> None:
     """
-    realizar un grafico de dispersion de los valores de distorsion o varianza
-    en un analisis de componentes principales. grafica el punto de codo,
-    que supuestamente reduce la dispersion o aumenta la varianza optimamente.
+    realizar un grafico de codo: se grafica las metricas de optimización contra la variable de variación
+    opcionalmente, se puede graficar el punto de codo.
+
+    parametros:
+        variacion: arreglo numpy con los cambios para la metrica.
+        metricas: arreglo numpy con la metrica calculada para cada variación.
+        titulos: tupla con tres titulos: titulo grafico, titulo eje x, titulo eje y.
+        punto_codo: numero que representa opcionalmente un punto de codo para graficar.
     """
     fig = plt.figure(figsize=(8, 5))
 
     ax = fig.add_subplot(1, 1, 1)
 
     ax.plot(
-        numero_clusteres, suma_distancias, marker='o', linestyle='-', color='b'
+        variacion, metricas, marker='o', linestyle='-', color='b'
     )
     ax.set_title(titulos[0])
     ax.set_xlabel(titulos[1])
