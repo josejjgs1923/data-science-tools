@@ -83,11 +83,21 @@ def grafico_real_vs_predicho(
 
 
 def grafico_residuos(
-    y_real, y_predicho, titulo, titulo_x, titulo_y, color='g'
-):
+    y_real: np.ndarray, 
+    y_predicho: np.ndarray, 
+    titulos: tuple[str, str, str],
+    color: str = 'g'
+) -> None:
     """
-    Calcular y graficar residuos de un modelo de regresion versus los valores
-    predichos.
+    Calcular y graficar residuos de un modelo de regresion, y graficar contra 
+    los valores predichos.
+
+    parametros:
+        y_real: arreglo de numpy con los datos de la variable dependiente reales.
+        y_predicho: arreglo de numpy con los datos de la varible dependientes predichos.
+        titulos: tupla con tres titulos: titulo grafico, titulo eje x, titulo eje y.
+        color: color usado para los puntos, sigue la convención usada por matplotlib. 
+            por defecto es el verde.
     """
     fig = plt.figure()
 
@@ -99,11 +109,11 @@ def grafico_residuos(
 
     ax.axhline(y=0, color='k', linestyle='--')
 
-    ax.set_title(titulo)
+    ax.set_title(titulos[0])
 
-    ax.set_xlabel(titulo_x)
+    ax.set_xlabel(titulos[1])
 
-    ax.set_ylabel(titulo_y)
+    ax.set_ylabel(titulos[2])
 
     plt.show()
 
