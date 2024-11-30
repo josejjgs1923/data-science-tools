@@ -7,6 +7,7 @@ import pandas as pd
 from sklearn.linear_model import LinearRegression as _LinearRegression
 import seaborn as sns
 import matplotlib.pyplot as plt
+from matplotlib.axes import Axes as _Axes
 
 
 def grafico_linear_simple(
@@ -127,7 +128,7 @@ def heatmap(
 ) -> None:
     """
     Presentar un vision grafica de una matriz, com un mapa de calor.
-    
+
     parametros:
         matriz: arreglo de numpy, siendo una matriz.
         titulo: titulo del grafico
@@ -144,10 +145,25 @@ def heatmap(
     plt.show()
 
 
-def cluster_plot(data, labels, titulos, data_centroides=None, ax=None):
+def cluster_plot(
+    data: pd.DataFrame,
+    labels: np.ndarray,
+    titulos: tuple[str, str, str],
+    data_centroides: pd.DataFrame | None = None,
+    ax: _Axes | None = None,
+) -> None:
     """
-    graficar los puntos de datos y los centroides para los resultados
-    de clasificaciones de agrupamiento.
+    graficar puntos de datos (y los centroides opcionalmente) para los resultados
+    de clasificaciones de un modelo no supervisado de agrupamiento. Los numero_clusteres
+    se colorean.
+
+    parametros:
+        data: dataframe con los datos a graficar
+        labels: arreglo de numpy con la indicacion (número) del cluster al cual pertenece.
+        titulos: tupla con el titulo grafico, titulo eje x, titulo eje y. los titulos x y y deben ser tambien nombres 
+                en las columnas del dataframe data.
+        data_centroides: dataframe con la información de los centroides. 
+        ax: ejes de matplotlib, en caso de que no se quieran generar nuevos ejes.
     """
 
     # Graficar los datos y los centros de clústeres
