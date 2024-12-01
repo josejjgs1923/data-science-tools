@@ -5,9 +5,14 @@ contiene funciones generales para visualizar los resultados de modelos, EDAs y o
 import numpy as np
 import pandas as pd
 from sklearn.linear_model import LinearRegression as _LinearRegression
+from sklearn.cluster import (
+    AgglomerativeClustering as _AgglomerativeClustering,
+    KMeans as _KMeans,
+)
 import seaborn as sns
 import matplotlib.pyplot as plt
 from matplotlib.axes import Axes as _Axes
+from typing import Collection as _Collection, Optional as _Optional
 
 
 def grafico_linear_simple(
@@ -161,7 +166,7 @@ def cluster_plot(
         data: dataframe con los datos a graficar
         labels: arreglo de numpy con la indicacion (número) del cluster al cual pertenece.
         titulos: tupla con el titulo grafico, titulo eje x, titulo eje y. los titulos x y y deben ser tambien nombres
-                en las columnas del dataframe data.
+                en las columnas del dataframe data, y de las columnas del dataframe data_centroides.
         data_centroides: dataframe con la información de los centroides.
         ax: ejes de matplotlib, en caso de que no se quieran generar nuevos ejes.
     """
@@ -211,9 +216,7 @@ def grafico_codo(
 
     ax = fig.add_subplot(1, 1, 1)
 
-    ax.plot(
-        variacion, metricas, marker='o', linestyle='-', color='b'
-    )
+    ax.plot(variacion, metricas, marker='o', linestyle='-', color='b')
     ax.set_title(titulos[0])
     ax.set_xlabel(titulos[1])
     ax.set_ylabel(titulos[2])
@@ -232,18 +235,34 @@ def grafico_codo(
 
 
 def conjunto_cluster_plot(
-    data, titulo, modelo, caracteristicas=None, cmap='viridis', tamaño=None
-):
+    data: pd.DataFrame,
+    titulo: str,
+    modelo: _AgglomerativeClustering | _KMeans,
+    caracteristicas: _Optional[_Collection[tuple[str, str]]] = None,
+    cmap: str = 'viridis',
+    tamaño: _Optional[tuple[int, int]] = None,
+) -> None :
     """
     Graficar conjunto de cluster plots, creando un grafico de clusters por cada
-    par de variables.
+    par de variables. funciona con un modelo KMeans o AgglomerativeClustering de 
+    sklearn. Se grafican las combinaciones de las columnas que se encuentren en el 
+    dataframe. 
+
+    parametros:
+        data: dataframe conteniendo los datos.
+        titulo: titulo del grafico.
+        modelo: modelo de sklearn de aglomeración.
+        caracteristicas: Iterable opcional con pares de caracteristicas a graficar,
+               en lugar de las combinaciones por defecto.
+        cmap: mapa de calor a usar para el grafico, usa los de seaborn.
+        tamaño: tupla opcional para cambiar el tamaño del grafico.
     """
 
     labels = modelo.labels_
 
     try:
         data_centroides = pd.DataFrame(
-            modelo.cluster_centers_, columns=data.columns
+            modelo.cluster_centers_, columns=data.columns #type: ignore
         )
 
         def grafico(eje, variable_x, variable_y):
