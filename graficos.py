@@ -37,7 +37,10 @@ def grafico_linear_simple(
         y_prueba: arreglo con los datos de prueba dependientes.
         modelo: modelo de regresion lineal simple de sklearn.
         titulos: tupla con tres titulos: titulo grafico, titulo eje x, titulo eje y.
-    )
+    
+    retorna:
+        ejes: objeto Axes de matplotlib. Se puede usar para cambiar el grafico producido.
+            se muestra inmediatamente si se usa plt.show() despues de llamar la función.
     """
 
     if ejes is None:
@@ -61,9 +64,6 @@ def grafico_linear_simple(
     ejes.set_ylabel(titulos[2])
     ejes.legend()
 
-    # Mostrar el gráfico
-    plt.show()
-
     return ejes
 
 
@@ -82,6 +82,10 @@ def grafico_real_vs_predicho(
         y_prueba: arreglo de numpy con los datos de la variale indepentiente reales (de prueba).
         y_prueba_pred: arreglo de numpy con los datos predichos.
         titulos: tupla con tres titulos: titulo grafico, titulo eje x, titulo eje y.
+
+    retorna:
+        ejes: objeto Axes de matplotlib. Se puede usar para cambiar el grafico producido.
+            se muestra inmediatamente si se usa plt.show() despues de llamar la función.
     """
     linea = np.linspace(np.min(y_prueba_pred), np.max(y_prueba_pred), 300)
 
@@ -100,9 +104,6 @@ def grafico_real_vs_predicho(
     ejes.set_xlabel(titulos[1])
     ejes.set_ylabel(titulos[2])
     ejes.legend()
-
-    # Mostrar el gráfico
-    plt.show()
 
     return ejes
 
@@ -125,6 +126,10 @@ def grafico_residuos(
         titulos: tupla con tres titulos: titulo grafico, titulo eje x, titulo eje y.
         color: color usado para los puntos, sigue la convención usada por matplotlib.
             por defecto es el verde.
+
+    retorna:
+        ejes: objeto Axes de matplotlib. Se puede usar para cambiar el grafico producido.
+            se muestra inmediatamente si se usa plt.show() despues de llamar la función.
     """
     if ejes is None:
         fig = plt.figure(figsize=tamaño)
@@ -142,8 +147,6 @@ def grafico_residuos(
     ejes.set_xlabel(titulos[1])
 
     ejes.set_ylabel(titulos[2])
-
-    plt.show()
 
     return ejes
 
@@ -165,6 +168,10 @@ def heatmap(
         formato: formato numerico a usar. por defecto usa dos decimales.
         tamaño: tamaño del grafico, tupla en la forma (tamaño x, tamaño y).
         mapa: mapa de color para el grafico. usa los mapas de seaborn.
+
+    retorna:
+        ejes: objeto Axes de matplotlib. Se puede usar para cambiar el grafico producido.
+            se muestra inmediatamente si se usa plt.show() despues de llamar la función.
     """
     if ejes is None:
         fig = plt.figure(figsize=tamaño)
@@ -174,8 +181,6 @@ def heatmap(
     sns.heatmap(matriz, annot=True, cmap=mapa, fmt=formato, ax=ejes)
 
     ejes.set_title(titulo)
-
-    plt.show()
 
     return ejes
 
@@ -200,6 +205,10 @@ def cluster_plot(
                 en las columnas del dataframe data, y de las columnas del dataframe data_centroides.
         data_centroides: dataframe con la información de los centroides.
         ejes: ejes de matplotlib, en caso de que no se quieran generar nuevos ejes.
+
+    retorna:
+        ejes: objeto Axes de matplotlib. Se puede usar para cambiar el grafico producido.
+            se muestra inmediatamente si se usa plt.show() despues de llamar la función.
     """
 
     # Graficar los datos y los centros de clústeres
@@ -229,8 +238,6 @@ def cluster_plot(
     ejes.set_xlabel(titulos[1])
     ejes.set_ylabel(titulos[2])
 
-    plt.show()
-
     return ejes
 
 
@@ -251,6 +258,10 @@ def grafico_codo(
         metricas: arreglo numpy con la metrica calculada para cada variación.
         titulos: tupla con tres titulos: titulo grafico, titulo eje x, titulo eje y.
         punto_codo: numero que representa opcionalmente un punto de codo para graficar.
+
+    retorna:
+        ejes: objeto Axes de matplotlib. Se puede usar para cambiar el grafico producido.
+            se muestra inmediatamente si se usa plt.show() despues de llamar la función.
     """
     if ejes is None:
         fig = plt.figure(figsize=tamaño)
@@ -272,8 +283,6 @@ def grafico_codo(
         ejes.legend()
 
     ejes.grid(True)
-
-    plt.show()
 
     return ejes
 
@@ -300,6 +309,10 @@ def conjunto_cluster_plot(
                en lugar de las combinaciones por defecto.
         cmap: mapa de calor a usar para el grafico, usa los de seaborn.
         tamaño: tupla opcional para cambiar el tamaño del grafico.
+
+    retorna:
+        axes: arreglo de num con objetos Axes de matplotlib. Se puede usar para cambiar los graficos producidos.
+            se muestran inmediatamente si se usa plt.show() despues de llamar la función.
     """
 
     labels = modelo.labels_
@@ -459,8 +472,6 @@ def conjunto_cluster_plot(
 
     # colocar titulo global de los graficos
     plt.suptitle(titulo)
-
-    plt.show()
 
     return axes
 
