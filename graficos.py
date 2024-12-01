@@ -22,6 +22,7 @@ def grafico_linear_simple(
     y_prueba: np.ndarray,
     modelo: _LinearRegression,
     titulos: tuple[str, str, str],
+    tamaño: _Optional[tuple[float, float]] = None,
 ) -> None:
     """
     graficar un modelo de regresion lineal simple: mostrando un grafico de dispersion de las predicciones
@@ -37,21 +38,25 @@ def grafico_linear_simple(
         titulos: tupla con tres titulos: titulo grafico, titulo eje x, titulo eje y.
     )
     """
-    plt.scatter(x_entre, y_entre, color='c', label='entrenamiento')
+    fig = plt.figure(figsize=tamaño)
 
-    plt.scatter(x_prueba, y_prueba, color='r', label='prueba')
+    ejes = fig.add_subplot()
+
+    ejes.scatter(x_entre, y_entre, color='c', label='entrenamiento')
+
+    ejes.scatter(x_prueba, y_prueba, color='r', label='prueba')
 
     x_reg = np.linspace(np.min(x_entre), np.max(x_entre), 300).reshape(-1, 1)
     y_reg = modelo.predict(x_reg)
 
-    plt.plot(x_reg, y_reg, 'k--', label='linea regresión')
+    ejes.plot(x_reg, y_reg, 'k--', label='linea regresión')
 
-    plt.title(titulos[0])
+    ejes.set_title(titulos[0])
 
     # Etiquetas de los ejes (opcional)
-    plt.xlabel(titulos[1])
-    plt.ylabel(titulos[2])
-    plt.legend()
+    ejes.set_xlabel(titulos[1])
+    ejes.set_ylabel(titulos[2])
+    ejes.legend()
 
     # Mostrar el gráfico
     plt.show()
@@ -61,6 +66,7 @@ def grafico_real_vs_predicho(
     y_prueba: np.ndarray,
     y_prueba_pred: np.ndarray,
     titulos: tuple[str, str, str],
+    tamaño: _Optional[tuple[float, float]] = None,
 ) -> None:
     """
     graficar los resultados de un modelo aprendizaje supervisado. Se un grafico de dispersion,
@@ -73,16 +79,20 @@ def grafico_real_vs_predicho(
     """
     linea = np.linspace(np.min(y_prueba_pred), np.max(y_prueba_pred), 300)
 
-    plt.plot(linea, linea, color='k', linestyle='--', label='y = x')
+    fig = plt.figure(figsize=tamaño)
 
-    plt.scatter(y_prueba, y_prueba_pred, color='c')
+    ejes = fig.add_subplot()
 
-    plt.title(titulos[0])
+    ejes.plot(linea, linea, color='k', linestyle='--', label='y = x')
+
+    ejes.scatter(y_prueba, y_prueba_pred, color='c')
+
+    ejes.set_title(titulos[0])
 
     # Etiquetas de los ejes (opcional)
-    plt.xlabel(titulos[1])
-    plt.ylabel(titulos[2])
-    plt.legend()
+    ejes.set_xlabel(titulos[1])
+    ejes.set_ylabel(titulos[2])
+    ejes.legend()
 
     # Mostrar el gráfico
     plt.show()
@@ -93,6 +103,7 @@ def grafico_residuos(
     y_predicho: np.ndarray,
     titulos: tuple[str, str, str],
     color: str = 'g',
+    tamaño: _Optional[tuple[float, float]] = None,
 ) -> None:
     """
     Calcular y graficar residuos de un modelo de regresion, y graficar contra
@@ -105,21 +116,21 @@ def grafico_residuos(
         color: color usado para los puntos, sigue la convención usada por matplotlib.
             por defecto es el verde.
     """
-    fig = plt.figure()
+    fig = plt.figure(figsize=tamaño)
 
-    ax = fig.add_subplot()
+    ejes = fig.add_subplot()
 
     residuos = y_real - y_predicho
 
-    ax.scatter(y_predicho, residuos, color=color, alpha=0.6)
+    ejes.scatter(y_predicho, residuos, color=color, alpha=0.6)
 
-    ax.axhline(y=0, color='k', linestyle='--')
+    ejes.axhline(y=0, color='k', linestyle='--')
 
-    ax.set_title(titulos[0])
+    ejes.set_title(titulos[0])
 
-    ax.set_xlabel(titulos[1])
+    ejes.set_xlabel(titulos[1])
 
-    ax.set_ylabel(titulos[2])
+    ejes.set_ylabel(titulos[2])
 
     plt.show()
 
@@ -128,8 +139,8 @@ def heatmap(
     matriz: np.ndarray,
     titulo: str,
     formato: str = '.2f',
-    tamaño: tuple[int, int] = (4, 4),
     mapa: str = 'Reds',
+    tamaño: _Optional[tuple[float, float]] = None,
 ) -> None:
     """
     Presentar un vision grafica de una matriz, com un mapa de calor.
@@ -155,7 +166,8 @@ def cluster_plot(
     labels: np.ndarray,
     titulos: tuple[str, str, str],
     data_centroides: _Optional[pd.DataFrame] = None,
-    ax: _Optional[_Axes] = None,
+    tamaño: _Optional[tuple[float, float]] = None,
+    ejes: _Optional[_Axes] = None,
 ) -> None:
     """
     graficar puntos de datos (y los centroides opcionalmente) para los resultados
@@ -168,17 +180,17 @@ def cluster_plot(
         titulos: tupla con el titulo grafico, titulo eje x, titulo eje y. los titulos x y y deben ser tambien nombres
                 en las columnas del dataframe data, y de las columnas del dataframe data_centroides.
         data_centroides: dataframe con la información de los centroides.
-        ax: ejes de matplotlib, en caso de que no se quieran generar nuevos ejes.
+        ejes: ejes de matplotlib, en caso de que no se quieran generar nuevos ejes.
     """
 
     # Graficar los datos y los centros de clústeres
-    if ax is None:
-        fig = plt.figure()
+    if ejes is None:
+        fig = plt.figure(figsize=tamaño)
 
-        ax = fig.add_subplot(1, 1, 1)
+        ejes = fig.add_subplot(1, 1, 1)
 
     sns.scatterplot(
-        data, x=titulos[1], y=titulos[2], hue=labels, palette='viridis', ax=ax
+        data, x=titulos[1], y=titulos[2], hue=labels, palette='viridis', ax=ejes
     )
 
     if data_centroides is not None:
@@ -187,11 +199,11 @@ def cluster_plot(
             data_centroides.loc[:, titulos[2]],
         )
 
-        ax.scatter(*centroides, s=100, marker='^', c='red')
+        ejes.scatter(*centroides, s=100, marker='^', c='red')
 
-    ax.set_title(titulos[0])
-    ax.set_xlabel(titulos[1])
-    ax.set_ylabel(titulos[2])
+    ejes.set_title(titulos[0])
+    ejes.set_xlabel(titulos[1])
+    ejes.set_ylabel(titulos[2])
 
     plt.show()
 
@@ -201,6 +213,7 @@ def grafico_codo(
     metricas: np.ndarray,
     titulos: tuple[str, str, str],
     punto_codo: _Optional[float] = None,
+    tamaño: _Optional[tuple[float, float]] = None,
 ) -> None:
     """
     realizar un grafico de codo: se grafica las metricas de optimización contra la variable de variación
@@ -212,25 +225,25 @@ def grafico_codo(
         titulos: tupla con tres titulos: titulo grafico, titulo eje x, titulo eje y.
         punto_codo: numero que representa opcionalmente un punto de codo para graficar.
     """
-    fig = plt.figure(figsize=(8, 5))
+    fig = plt.figure(figsize=tamaño)
 
-    ax = fig.add_subplot(1, 1, 1)
+    ejes = fig.add_subplot(1, 1, 1)
 
-    ax.plot(variacion, metricas, marker='o', linestyle='-', color='b')
-    ax.set_title(titulos[0])
-    ax.set_xlabel(titulos[1])
-    ax.set_ylabel(titulos[2])
+    ejes.plot(variacion, metricas, marker='o', linestyle='-', color='b')
+    ejes.set_title(titulos[0])
+    ejes.set_xlabel(titulos[1])
+    ejes.set_ylabel(titulos[2])
 
     if punto_codo is not None:
-        ax.axvline(
+        ejes.axvline(
             x=punto_codo,
             linestyle='--',
             color='r',
             label=f'Codo en x = {punto_codo:d}',
         )
-        ax.legend()
+        ejes.legend()
 
-    ax.grid(True)
+    ejes.grid(True)
     plt.show()
 
 
@@ -240,7 +253,7 @@ def conjunto_cluster_plot(
     modelo: _AgglomerativeClustering | _KMeans,
     caracteristicas: _Optional[_Collection[tuple[str, str]]] = None,
     cmap: str = 'viridis',
-    tamaño: _Optional[tuple[int, int]] = None,
+    tamaño: _Optional[tuple[float, float]] = None,
 ) -> None :
     """
     Graficar conjunto de cluster plots, creando un grafico de clusters por cada
