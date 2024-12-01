@@ -12,7 +12,7 @@ from sklearn.cluster import (
 import seaborn as sns
 import matplotlib.pyplot as plt
 from matplotlib.axes import Axes as _Axes
-from typing import Collection as _Collection, Optional as _Optional
+from typing import Collection as _Collection, Optional as _Optional 
 
 
 def grafico_linear_simple(
@@ -23,7 +23,8 @@ def grafico_linear_simple(
     modelo: _LinearRegression,
     titulos: tuple[str, str, str],
     tamaño: _Optional[tuple[float, float]] = None,
-) -> None:
+    ejes: _Optional[_Axes] = None,
+) -> _Axes:
     """
     graficar un modelo de regresion lineal simple: mostrando un grafico de dispersion de las predicciones
     y de los valores reales (datos de entrenamiento y de prueba). las predicciones se muestran como una linea
@@ -38,9 +39,11 @@ def grafico_linear_simple(
         titulos: tupla con tres titulos: titulo grafico, titulo eje x, titulo eje y.
     )
     """
-    fig = plt.figure(figsize=tamaño)
 
-    ejes = fig.add_subplot()
+    if ejes is None:
+        fig = plt.figure(figsize=tamaño)
+
+        ejes = fig.add_subplot()
 
     ejes.scatter(x_entre, y_entre, color='c', label='entrenamiento')
 
@@ -61,13 +64,16 @@ def grafico_linear_simple(
     # Mostrar el gráfico
     plt.show()
 
+    return ejes
+
 
 def grafico_real_vs_predicho(
     y_prueba: np.ndarray,
     y_prueba_pred: np.ndarray,
     titulos: tuple[str, str, str],
     tamaño: _Optional[tuple[float, float]] = None,
-) -> None:
+    ejes: _Optional[_Axes] = None,
+) -> _Axes:
     """
     graficar los resultados de un modelo aprendizaje supervisado. Se un grafico de dispersion,
     mostrando puntos de la variable dependiente reales vs los predichos.
@@ -79,9 +85,10 @@ def grafico_real_vs_predicho(
     """
     linea = np.linspace(np.min(y_prueba_pred), np.max(y_prueba_pred), 300)
 
-    fig = plt.figure(figsize=tamaño)
+    if ejes is None:
+        fig = plt.figure(figsize=tamaño)
 
-    ejes = fig.add_subplot()
+        ejes = fig.add_subplot()
 
     ejes.plot(linea, linea, color='k', linestyle='--', label='y = x')
 
@@ -97,6 +104,8 @@ def grafico_real_vs_predicho(
     # Mostrar el gráfico
     plt.show()
 
+    return ejes
+
 
 def grafico_residuos(
     y_real: np.ndarray,
@@ -104,7 +113,8 @@ def grafico_residuos(
     titulos: tuple[str, str, str],
     color: str = 'g',
     tamaño: _Optional[tuple[float, float]] = None,
-) -> None:
+    ejes: _Optional[_Axes] = None,
+) -> _Axes:
     """
     Calcular y graficar residuos de un modelo de regresion, y graficar contra
     los valores predichos.
@@ -116,9 +126,10 @@ def grafico_residuos(
         color: color usado para los puntos, sigue la convención usada por matplotlib.
             por defecto es el verde.
     """
-    fig = plt.figure(figsize=tamaño)
+    if ejes is None:
+        fig = plt.figure(figsize=tamaño)
 
-    ejes = fig.add_subplot()
+        ejes = fig.add_subplot()
 
     residuos = y_real - y_predicho
 
@@ -134,6 +145,8 @@ def grafico_residuos(
 
     plt.show()
 
+    return ejes
+
 
 def heatmap(
     matriz: np.ndarray,
@@ -141,7 +154,8 @@ def heatmap(
     formato: str = '.2f',
     mapa: str = 'Reds',
     tamaño: _Optional[tuple[float, float]] = None,
-) -> None:
+    ejes: _Optional[_Axes] = None,
+) -> _Axes:
     """
     Presentar un vision grafica de una matriz, com un mapa de calor.
 
@@ -152,15 +166,18 @@ def heatmap(
         tamaño: tamaño del grafico, tupla en la forma (tamaño x, tamaño y).
         mapa: mapa de color para el grafico. usa los mapas de seaborn.
     """
-    fig = plt.figure(figsize=tamaño)
+    if ejes is None:
+        fig = plt.figure(figsize=tamaño)
 
-    ejes = fig.add_subplot()
+        ejes = fig.add_subplot()
 
     sns.heatmap(matriz, annot=True, cmap=mapa, fmt=formato, ax=ejes)
 
     ejes.set_title(titulo)
 
     plt.show()
+
+    return ejes
 
 
 def cluster_plot(
@@ -170,7 +187,7 @@ def cluster_plot(
     data_centroides: _Optional[pd.DataFrame] = None,
     tamaño: _Optional[tuple[float, float]] = None,
     ejes: _Optional[_Axes] = None,
-) -> None:
+) -> _Axes:
     """
     graficar puntos de datos (y los centroides opcionalmente) para los resultados
     de clasificaciones de un modelo no supervisado de agrupamiento. Los numero_clusteres
@@ -192,7 +209,12 @@ def cluster_plot(
         ejes = fig.add_subplot(1, 1, 1)
 
     sns.scatterplot(
-        data, x=titulos[1], y=titulos[2], hue=labels, palette='viridis', ax=ejes
+        data,
+        x=titulos[1],
+        y=titulos[2],
+        hue=labels,
+        palette='viridis',
+        ax=ejes,
     )
 
     if data_centroides is not None:
@@ -209,6 +231,8 @@ def cluster_plot(
 
     plt.show()
 
+    return ejes
+
 
 def grafico_codo(
     variacion: np.ndarray,
@@ -216,7 +240,8 @@ def grafico_codo(
     titulos: tuple[str, str, str],
     punto_codo: _Optional[float] = None,
     tamaño: _Optional[tuple[float, float]] = None,
-) -> None:
+    ejes: _Optional[_Axes] = None,
+) -> _Axes:
     """
     realizar un grafico de codo: se grafica las metricas de optimización contra la variable de variación
     opcionalmente, se puede graficar el punto de codo.
@@ -227,9 +252,10 @@ def grafico_codo(
         titulos: tupla con tres titulos: titulo grafico, titulo eje x, titulo eje y.
         punto_codo: numero que representa opcionalmente un punto de codo para graficar.
     """
-    fig = plt.figure(figsize=tamaño)
+    if ejes is None:
+        fig = plt.figure(figsize=tamaño)
 
-    ejes = fig.add_subplot(1, 1, 1)
+        ejes = fig.add_subplot(1, 1, 1)
 
     ejes.plot(variacion, metricas, marker='o', linestyle='-', color='b')
     ejes.set_title(titulos[0])
@@ -246,7 +272,10 @@ def grafico_codo(
         ejes.legend()
 
     ejes.grid(True)
+
     plt.show()
+
+    return ejes
 
 
 def conjunto_cluster_plot(
@@ -256,12 +285,12 @@ def conjunto_cluster_plot(
     caracteristicas: _Optional[_Collection[tuple[str, str]]] = None,
     cmap: str = 'viridis',
     tamaño: _Optional[tuple[float, float]] = None,
-) -> None :
+) -> np.ndarray[_Axes, np.dtype[np.object_]]:
     """
     Graficar conjunto de cluster plots, creando un grafico de clusters por cada
-    par de variables. funciona con un modelo KMeans o AgglomerativeClustering de 
-    sklearn. Se grafican las combinaciones de las columnas que se encuentren en el 
-    dataframe. 
+    par de variables. funciona con un modelo KMeans o AgglomerativeClustering de
+    sklearn. Se grafican las combinaciones de las columnas que se encuentren en el
+    dataframe.
 
     parametros:
         data: dataframe conteniendo los datos.
@@ -277,7 +306,7 @@ def conjunto_cluster_plot(
 
     try:
         data_centroides = pd.DataFrame(
-            modelo.cluster_centers_, columns=data.columns #type: ignore
+            modelo.cluster_centers_, columns=data.columns  # type: ignore
         )
 
         def grafico(eje, variable_x, variable_y):
@@ -432,6 +461,8 @@ def conjunto_cluster_plot(
     plt.suptitle(titulo)
 
     plt.show()
+
+    return axes
 
 
 if __name__ == '__main__':
