@@ -154,8 +154,8 @@ def cluster_plot(
     data: pd.DataFrame,
     labels: np.ndarray,
     titulos: tuple[str, str, str],
-    data_centroides: pd.DataFrame | None = None,
-    ax: _Axes | None = None,
+    data_centroides: _Optional[pd.DataFrame] = None,
+    ax: _Optional[_Axes] = None,
 ) -> None:
     """
     graficar puntos de datos (y los centroides opcionalmente) para los resultados
@@ -200,7 +200,7 @@ def grafico_codo(
     variacion: np.ndarray,
     metricas: np.ndarray,
     titulos: tuple[str, str, str],
-    punto_codo: float | None = None,
+    punto_codo: _Optional[float] = None,
 ) -> None:
     """
     realizar un grafico de codo: se grafica las metricas de optimización contra la variable de variación
