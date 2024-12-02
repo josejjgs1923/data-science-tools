@@ -16,6 +16,13 @@ from matplotlib.axes import Axes as _Axes
 from typing import Collection as _Collection, Optional as _Optional
 
 
+def colocar_titulos(ejes: _Axes, titulos: tuple[str, str, str]) -> None:
+    titulo, titulo_x, titulo_y = titulos
+
+    ejes.set_title(titulo)
+    ejes.set_xlabel(titulo_x)
+    ejes.set_ylabel(titulo_y)
+ 
 def grafico_linear_simple(
     x_entre: np.ndarray,
     y_entre: np.ndarray,
@@ -57,9 +64,7 @@ def grafico_linear_simple(
 
 
     # Etiquetas de los ejes
-    ejes.set_title(titulos[0])
-    ejes.set_xlabel(titulos[1])
-    ejes.set_ylabel(titulos[2])
+    colocar_titulos(ejes, titulos)
     ejes.legend()
 
     return ejes
@@ -95,9 +100,7 @@ def grafico_real_vs_predicho(
     ejes.scatter(y_prueba, y_prueba_pred, color='c')
 
     # Etiquetas de los ejes
-    ejes.set_title(titulos[0])
-    ejes.set_xlabel(titulos[1])
-    ejes.set_ylabel(titulos[2])
+    colocar_titulos(ejes, titulos)
     ejes.legend()
 
     return ejes
@@ -135,9 +138,8 @@ def grafico_residuos(
     ejes.scatter(y_predicho, residuos, color=color, alpha=0.6)
     ejes.axhline(y=0, color='k', linestyle='--')
 
-    ejes.set_title(titulos[0])
-    ejes.set_xlabel(titulos[1])
-    ejes.set_ylabel(titulos[2])
+    # Etiquetas de los ejes
+    colocar_titulos(ejes, titulos)
 
     return ejes
 
@@ -259,9 +261,8 @@ def cluster_plot(
 
         ejes.scatter(*centroides, s=100, marker='^', c='red')
 
-    ejes.set_title(titulos[0])
-    ejes.set_xlabel(titulos[1])
-    ejes.set_ylabel(titulos[2])
+    # Etiquetas de los ejes
+    colocar_titulos(ejes, titulos)
 
     return ejes
 
@@ -294,9 +295,8 @@ def grafico_codo(
 
     ejes.plot(variacion, metricas, marker='o', linestyle='-', color='b')
 
-    ejes.set_title(titulos[0])
-    ejes.set_xlabel(titulos[1])
-    ejes.set_ylabel(titulos[2])
+    # Etiquetas de los ejes
+    colocar_titulos(ejes, titulos)
 
     if punto_codo is not None:
         ejes.axvline(
