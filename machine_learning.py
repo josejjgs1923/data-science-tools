@@ -47,9 +47,7 @@ def mostrar_metricas(
     # Calculo de metricas MSE, RMSE, MAE
 
     mse = metrics.mean_squared_error(y_real, y_predicho)
-
     rmse = np.sqrt(mse)
-
     mae = metrics.mean_absolute_error(y_real, y_predicho)
 
     summ.extend(

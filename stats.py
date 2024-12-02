@@ -24,11 +24,9 @@ def tamaño_sturgess(data: pd.DataFrame) -> tuple[float, np.ndarray]:
         bins: arreglo con los limites de las categorias.
     """
     maximo = np.max(data)
-
     minimo = np.min(data)
 
     tamaño = (maximo - minimo) / (1 + 3.3 * np.log10(len(data)))
-
     bins = np.arange(minimo, maximo, tamaño)
 
     return tamaño, bins
@@ -50,9 +48,7 @@ def medidas_resumen(datos: pd.DataFrame, campo: str) -> pd.DataFrame:
     serie = datos[campo]
 
     resumen = serie.describe()
-
     resumen['var'] = serie.var()
-
     resumen = pd.DataFrame(resumen)
 
     return resumen
@@ -76,7 +72,6 @@ def tabla_frecuencia(datos: pd.DataFrame, campo: str) -> pd.DataFrame:
     relativa = frec / datos.shape[0]
 
     frec['relativa'] = relativa
-
     frec.loc['suma'] = [datos.shape[0], relativa['frecuencia'].sum()]
 
     return frec
@@ -114,7 +109,6 @@ def calcular_valor_t(
     # grado de libertad n-2 por ser un modelo regresion
 
     SC = residuos**2
-
     std_residuos = np.sqrt(SC.sum() / (n - 2))
 
     # calculo de la desviacion estandar de las caracteriscas
@@ -127,7 +121,6 @@ def calcular_valor_t(
 
     # calculo del estadisticos t y p,  con t = (m_estimado - m_esperado)/error_estandar
     valor_t = (estadistico_estimado - estadistico_esperado) * inv_std_error
-
     valor_p = stats.t.sf(np.abs(valor_t), df=n - 2) * 2
 
     return valor_t, valor_p
@@ -215,9 +208,7 @@ def mostrar_chi(resultados: stats._stats_py.Power_divergenceResult) -> None:
     test, gl = resultados
 
     print(f'Chi Cuadrado    : {test.statistic:.3f}')
-
     print(f'Valor P         : {test.pvalue:.3f}')
-
     print(f'Grados libertad : {gl}')
 
 
@@ -230,7 +221,6 @@ def mostrar_anova(resultados: stats._stats_py.Power_divergenceResult) -> None:
     """
 
     print(f'Valor F: {resultados.statistic:.3f}')
-
     print(f'Valor P: {resultados.pvalue:.3f}')
 
 

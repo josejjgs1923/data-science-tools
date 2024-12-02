@@ -46,21 +46,18 @@ def grafico_linear_simple(
 
     if ejes is None:
         fig = plt.figure(figsize=tamaño)
-
         ejes = fig.add_subplot()
 
     ejes.scatter(x_entre, y_entre, color='c', label='entrenamiento')
-
     ejes.scatter(x_prueba, y_prueba, color='r', label='prueba')
 
     x_reg = np.linspace(np.min(x_entre), np.max(x_entre), 300).reshape(-1, 1)
     y_reg = modelo.predict(x_reg)
-
     ejes.plot(x_reg, y_reg, 'k--', label='linea regresión')
 
-    ejes.set_title(titulos[0])
 
-    # Etiquetas de los ejes (opcional)
+    # Etiquetas de los ejes
+    ejes.set_title(titulos[0])
     ejes.set_xlabel(titulos[1])
     ejes.set_ylabel(titulos[2])
     ejes.legend()
@@ -92,16 +89,13 @@ def grafico_real_vs_predicho(
 
     if ejes is None:
         fig = plt.figure(figsize=tamaño)
-
         ejes = fig.add_subplot()
 
     ejes.plot(linea, linea, color='k', linestyle='--', label='y = x')
-
     ejes.scatter(y_prueba, y_prueba_pred, color='c')
 
+    # Etiquetas de los ejes
     ejes.set_title(titulos[0])
-
-    # Etiquetas de los ejes (opcional)
     ejes.set_xlabel(titulos[1])
     ejes.set_ylabel(titulos[2])
     ejes.legend()
@@ -134,19 +128,15 @@ def grafico_residuos(
     """
     if ejes is None:
         fig = plt.figure(figsize=tamaño)
-
         ejes = fig.add_subplot()
 
     residuos = y_real - y_predicho
 
     ejes.scatter(y_predicho, residuos, color=color, alpha=0.6)
-
     ejes.axhline(y=0, color='k', linestyle='--')
 
     ejes.set_title(titulos[0])
-
     ejes.set_xlabel(titulos[1])
-
     ejes.set_ylabel(titulos[2])
 
     return ejes
@@ -176,7 +166,6 @@ def heatmap(
     """
     if ejes is None:
         fig = plt.figure(figsize=tamaño)
-
         ejes = fig.add_subplot()
 
     sns.heatmap(matriz, annot=True, cmap=mapa, fmt=formato, ax=ejes)
@@ -251,7 +240,6 @@ def cluster_plot(
     # Graficar los datos y los centros de clústeres
     if ejes is None:
         fig = plt.figure(figsize=tamaño)
-
         ejes = fig.add_subplot(1, 1, 1)
 
     sns.scatterplot(
@@ -302,10 +290,10 @@ def grafico_codo(
     """
     if ejes is None:
         fig = plt.figure(figsize=tamaño)
-
         ejes = fig.add_subplot(1, 1, 1)
 
     ejes.plot(variacion, metricas, marker='o', linestyle='-', color='b')
+
     ejes.set_title(titulos[0])
     ejes.set_xlabel(titulos[1])
     ejes.set_ylabel(titulos[2])
