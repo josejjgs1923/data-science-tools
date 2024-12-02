@@ -70,7 +70,7 @@ def parametros_modelo_lineal(
     modelo: _LinearRegression | _LogisticRegression,
     valores_t: np.ndarray,
     valores_p: np.ndarray,
-):
+) -> pd.DataFrame:
     """
     Contruir un dataframe para mostrar los resultados de un modelo de regresion.
     muestra los nombres de las variables, valores de parametros estimados,
