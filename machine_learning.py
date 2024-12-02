@@ -7,7 +7,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn import metrics
-from typing import Optional as _Optional
+from sklearn.linear_model import LinearRegression as _LinearRegression, LogisticRegression as _LogisticRegression
+from typing import Iterable as _Iterable, Optional as _Optional
 from .graficos import heatmap
 
 
@@ -26,7 +27,7 @@ def mostrar_metricas(
          y_predicho: arreglo de numpy con los valores predichos de la variable dependiente.
          decimales: cantidad de decimales a mostrar.
          num_predictores: cantidad de variables predictoras para el calculo de R2_aj.
-           
+
     retorna:
         string con los todas las metricas en estilo tabla.
     """
@@ -64,18 +65,32 @@ def mostrar_metricas(
     return '\n'.join(summ)
 
 
-def mostrar_parametros(
-    variables, modelo, valores_t, valores_p, nombre_parametros='parametros'
+def parametros_modelo_lineal(
+    variables: _Iterable[str],
+    modelo: _LinearRegression,
+    valores_t: np.ndarray,
+    valores_p: np.ndarray,
 ):
     """
     Contruir un dataframe para mostrar los resultados de un modelo de regresion.
     muestra los nombres de las variables, valores de parametros estimados,
     valores t y valores p.
+
+    parametros:
+        variables: iterable con los nombres de variables independientes usadas,
+        modelo: modelo de la clase LinearRegression,
+        valores_t: arreglo de numpy con estadisticos t-student,
+        valores_p: arreglo de numpy con estadisticos p,
+
+    retorna:
+        summ: dataframe con el resumen de parametros y pruebas estadisticas.
     """
+    parametros = [*modelo.coef_.ravel(), *modelo.intercept_.ravel()] #type: ignore
+
     summ = pd.DataFrame(
         {
             'variables': [*variables, 'intercepto'],
-            'parametros': [*modelo.coef_.ravel(), *modelo.intercept_.ravel()],
+            'parametros': parametros,
             'valores t': valores_t,
             'valores_p': valores_p,
         }
