@@ -13,7 +13,7 @@ from sklearn.metrics import confusion_matrix
 import seaborn as sns
 import matplotlib.pyplot as plt
 from matplotlib.axes import Axes as _Axes
-from typing import Collection as _Collection, Optional as _Optional 
+from typing import Collection as _Collection, Optional as _Optional
 
 
 def grafico_linear_simple(
@@ -38,7 +38,7 @@ def grafico_linear_simple(
         y_prueba: arreglo con los datos de prueba dependientes.
         modelo: modelo de regresion lineal simple de sklearn.
         titulos: tupla con tres titulos: titulo grafico, titulo eje x, titulo eje y.
-    
+
     retorna:
         ejes: objeto Axes de matplotlib. Se puede usar para cambiar el grafico producido.
             se muestra inmediatamente si se usa plt.show() despues de llamar la función.
@@ -186,12 +186,40 @@ def heatmap(
     return ejes
 
 
-def matriz_confusion(y_real, y_predicho):
+def matriz_confusion(
+    y_real: np.ndarray,
+    y_predicho: np.ndarray,
+    mapa: str = 'Reds',
+    tamaño: _Optional[tuple[float, float]] = None,
+    ejes: _Optional[_Axes] = None,
+) -> _Axes:
+    """
+    mostrar una matriz de confusion, usando un mapa de calor para presentar
+    los cuatro sectores y la intensidad.
+
+    parametros:
+        y_real:
+        y_predicho:
+        mapa: mapa de color para el grafico. usa los mapas de seaborn.
+        tamaño: tamaño del grafico, tupla en la forma (tamaño x, tamaño y).
+        ejes: ejes de matplotlib, en caso de que no se quieran generar nuevos ejes.
+
+    retorna:
+         ejes: objeto Axes de matplotlib. Se puede usar para cambiar el grafico producido.
+            se muestra inmediatamente si se usa plt.show() despues de llamar la función.
+    """
+    if ejes is None:
+        fig = plt.figure(figsize=tamaño)
+        ejes = fig.add_subplot()
+
     matriz = confusion_matrix(y_real, y_predicho)
-    heatmap(matriz, 'Matriz Confusion', 'd')
-    ax = plt.gca()
-    ax.set_xlabel('Valor Predicho')
-    ax.set_ylabel('Valor Real')
+
+    heatmap(matriz, 'Matriz Confusion', 'd', mapa=mapa, ejes=ejes)
+
+    ejes.set_xlabel('Valor Predicho')
+    ejes.set_ylabel('Valor Real')
+
+    return ejes
 
 
 def cluster_plot(
