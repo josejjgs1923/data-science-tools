@@ -97,13 +97,20 @@ def parametros_modelo_lineal(
     return summ
 
 
-def punto_codo(x, y):
+def punto_codo(variacion: np.ndarray, metrica: np.ndarray) -> float:
     """
-    hallar el punto de codo de un modelo de clasificacion por agrupación,
-    o en el contexto de un PCA
+    hallar el punto de codo de una relación entre metrica medida y variación de una variable independiente. 
+    regularmente se usa en modelos de clasificacion por agrupación, o en el contexto de un PCA.
+
+    parametros:
+        variacion: arreglo de numpy con el cambio de la variable independiente para la metrica.
+        metrica: arreglo de numpy con los cambios de la metrica respecto a la variabl independiente.
+
+    retorna:
+        punto_codo: valor del punto de codo hallado.
     """
-    # colocar x en una matrix con y, donde las filas seran el conjunto de puntos: [[x1, y1], [x2, y2], [x3, y3]...]
-    puntos = np.vstack((x, y)).T
+    # colocar x (variacion) en una matrix con y (metrica), donde las filas seran el conjunto de puntos: [[x1, y1], [x2, y2], [x3, y3]...]
+    puntos = np.vstack((variacion, metrica)).T
 
     extremo_menor = puntos[0, :]
 
@@ -121,7 +128,7 @@ def punto_codo(x, y):
     # El punto con la máxima distancia es el codo
     indice_codo = np.argmax(distancias)
 
-    return x[indice_codo]
+    return variacion[indice_codo]
 
 
 if __name__ == '__main__':
