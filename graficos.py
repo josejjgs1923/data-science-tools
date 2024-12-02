@@ -9,6 +9,7 @@ from sklearn.cluster import (
     AgglomerativeClustering as _AgglomerativeClustering,
     KMeans as _KMeans,
 )
+from sklearn.metrics import confusion_matrix
 import seaborn as sns
 import matplotlib.pyplot as plt
 from matplotlib.axes import Axes as _Axes
@@ -183,6 +184,14 @@ def heatmap(
     ejes.set_title(titulo)
 
     return ejes
+
+
+def matriz_confusion(y_real, y_predicho):
+    matriz = confusion_matrix(y_real, y_predicho)
+    heatmap(matriz, 'Matriz Confusion', 'd')
+    ax = plt.gca()
+    ax.set_xlabel('Valor Predicho')
+    ax.set_ylabel('Valor Real')
 
 
 def cluster_plot(

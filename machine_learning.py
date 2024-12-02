@@ -5,11 +5,9 @@ contiene funciones generales para implementar modelos de machine learning, visua
 
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 from sklearn import metrics
 from sklearn.linear_model import LinearRegression as _LinearRegression, LogisticRegression as _LogisticRegression
 from typing import Iterable as _Iterable, Optional as _Optional
-from .graficos import heatmap
 
 
 def mostrar_metricas(
@@ -97,14 +95,6 @@ def parametros_modelo_lineal(
     )
 
     return summ
-
-
-def matriz_confusion(y_real, y_predicho):
-    matriz = metrics.confusion_matrix(y_real, y_predicho)
-    heatmap(matriz, 'Matriz Confusion', 'd')
-    ax = plt.gca()
-    ax.set_xlabel('Valor Predicho')
-    ax.set_ylabel('Valor Real')
 
 
 def punto_codo(x, y):
